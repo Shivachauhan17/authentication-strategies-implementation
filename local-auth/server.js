@@ -2,6 +2,7 @@ const express=require('express')
 const passport=require('passport')
 const MongoStore=require('connect-mongo')
 const session=require('express-session')
+const mongoose=require('mongoose')
 const routes=require('./routes/index')
 require('dotenv').config();
 
@@ -24,9 +25,12 @@ app.use(
       resave: false,//don't save session is unmodified
       saveUninitialized: true,//don't create session untill something is stores
       store: MongoStore.create({
-        mongoUrl: process.env.DB_STRING,
+        mongoUrl:process.env.DB_STRING,
         collection: 'sessions'
-      })  
+      }),
+      cookie:{
+        maxAge:1000*60*60*24
+      }  
   })
   )
 
@@ -41,13 +45,13 @@ app.use((req,res,next)=>{
     next()
 })
 
-app.use('/',routes)
+app.use(routes)
 
 
 
-// app.use(passport.initialize());
-// app.use(passport.session());
+
+
 
 app.listen(8000,()=>{
-    console.log('serverr is running you better catch it')
+    console.log('server is running you better catch it')
 })

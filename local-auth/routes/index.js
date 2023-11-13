@@ -12,13 +12,13 @@ router.post('/register',async (req,res,next)=>{
     const saltHash=genPassword(req.body.password)
 
     const salt=saltHash.salt
-    const hash=saltHash.salt
+    const hash=saltHash.hash
 
     await User.findOneAndUpdate({userName:req.body.userName},{
         userName:req.body.userName,
         hash:hash,
         salt:salt
-    },{upsert:true})
+    },{new:true,upsert:true})
     .then((user)=>{
         console.log("on register route",user)
     })

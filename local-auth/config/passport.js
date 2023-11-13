@@ -1,57 +1,43 @@
-const Strategy=require('passport-local').Strategy
-const User=require('../models/user')
-const validPassword=require('../lib/passwordUtil').validPassword
+const LocalStrategy = require('passport-local').Strategy
+const mongoose = require('mongoose')
+const User = require('../models/user')
+const validPassword = require('../lib/passwordUtil').validPassword;
 
 
-const customField={
-    username:'userName',
-    password:'password'
-}
+module.exports = function (passport) {
+  passport.use(new LocalStrategy({ usernameField: 'userName' }, async (username, password, done) => {
 
-const verifyCallback=async (username,password,cb)=>{
-console.log("in verify")
-console.log(username)
-console.log(password)
-await User.findOne({userName:username})
-    .then(user=>{
-        if(!user) {return cb(null, false);}
-
-        const isvalid=validPassword(password,user.hash,user.salt)
-
-        if(isvalid){
-            console.log("in verify user is",user)
-            return cb(null,user);
-        }
-        else{
-            return cb(null,false);
-        }
-
-    })
-    .catch((err)=>{
-        cb(err);
-    })
-}
-
-
-module.exports=function (passport){
-
-const strategy=new Strategy(customField,verifyCallback);
-passport.use(strategy)
-
-passport.serializeUser((user,cb)=>{
-    console.log("in serialize user id is",user.id)
-    cb(null,user.id)
-})
-
-passport.deserializeUser(async (userId,cb)=>{
-    await User.findById(userId)
-        .then((user)=>{
-            cb(null,user);
-            console.log("in deserialize user",user)
+    await User.findOne({ userName: username })
+        .then((user) => {
+            if (!user) { return done(null, false) }
+            
+            const isValid = validPassword(password, user.hash, user.salt);
+            if (isValid) {
+                return done(null, user);
+            } else {
+                return done(null, false);
+            }
         })
-        .catch((err)=>{
-            cb(err,false)
-        })
-})
+        .catch((err) => {   
+            done(err);
+        });
 
-}
+    }))
+      passport.serializeUser((user, done) => {
+    console.log("serialize user")
+    console.log("user in serialize user:",user)
+    done(null, user.id)
+  })
+
+  passport.deserializeUser(async (id, done) => {
+    console.log("deserialize user");
+    try {
+      const user = await User.findById(id);
+      done(null, user);
+    } catch (err) {
+      done(err, null);
+    }
+  });
+    
+    }
+    
