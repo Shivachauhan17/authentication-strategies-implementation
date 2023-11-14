@@ -13,9 +13,7 @@ function genPassword(password){
 
 
 function validPassword(password,hash,salt){
-    console.log(hash)
     const genHash=crypto.pbkdf2Sync(password,salt,1000,64,'sha512').toString('hex')
-    console.log(genHash)
 
     return hash===genHash
 

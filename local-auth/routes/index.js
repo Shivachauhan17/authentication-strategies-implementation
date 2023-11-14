@@ -2,6 +2,7 @@ const router=require('express').Router()
 const passport=require('passport')
 const genPassword=require('../lib/passwordUtil').genPassword
 const User=require('../models/user')
+require('../config/passport')(passport)
 
 
 router.post('/login',passport.authenticate('local',{failureRedirect:"/login-failure",successRedirect:"/login-success"}))
@@ -81,8 +82,10 @@ router.get('/protected',(req,res,next)=>{
 })
 
 router.get('/logout',(req,res,next)=>{
-    req.logOut();
-    res.redirect('/protected-route')
+    req.logOut((err=>{
+        if(err) {return next(err);}
+        res.redirect('/')
+    }));
 })
 
 module.exports=router

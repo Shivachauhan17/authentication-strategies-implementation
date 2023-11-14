@@ -36,8 +36,8 @@ app.use(
 
 require('./config/passport')(passport)
 
-passport.use(passport.initialize())
-passport.use(passport.session())
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use((req,res,next)=>{
     console.log("session info:",req.session)
