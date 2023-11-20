@@ -2,33 +2,6 @@
 const GoogleStrategy =require('passport-google-oauth20').Strategy;
 const User=require('../models/user')
 
-// {
-//   id: '102547508563094076232',
-//   displayName: 'SHIVA chauhan',
-//   name: { familyName: 'chauhan', givenName: 'SHIVA' },
-//   photos: [
-//     {
-//       value: 'https://lh3.googleusercontent.com/a/ACg8ocIxX4G1XnxkesWi2Up5nXSxkO3g8UZ8tSKbhMW5JoHf=s96-c'
-//     }
-//   ],
-//   provider: 'google',
-//   _raw: '{\n' +
-//     '  "sub": "102547508563094076232",\n' +
-//     '  "name": "SHIVA chauhan",\n' +
-//     '  "given_name": "SHIVA",\n' +
-//     '  "family_name": "chauhan",\n' +
-//     '  "picture": "https://lh3.googleusercontent.com/a/ACg8ocIxX4G1XnxkesWi2Up5nXSxkO3g8UZ8tSKbhMW5JoHf\\u003ds96-c",\n' +
-//     '  "locale": "en"\n' +
-//     '}',
-//   _json: {
-//     sub: '102547508563094076232',
-//     name: 'SHIVA chauhan',
-//     given_name: 'SHIVA',
-//     family_name: 'chauhan',
-//     picture: 'https://lh3.googleusercontent.com/a/ACg8ocIxX4G1XnxkesWi2Up5nXSxkO3g8UZ8tSKbhMW5JoHf=s96-c',
-//     locale: 'en'
-//   }
-// }
 
 require('dotenv').config()
 const GOOGLE_CLIENT_ID=process.env.GOOGLE_CLIENT_ID
