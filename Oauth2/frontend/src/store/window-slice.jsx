@@ -14,7 +14,7 @@ const windowSlice=createSlice({
         },
 
         openWindow(state){
-            const newWindow=window.open('http://localhost:8000/auth/google','_blank',"width=500,height=600")
+            const newWindow=window.open('http://localhost:8000/auth/google',"_self")//,'_blank',"width=500,height=600"
             if(newWindow){
                 state.isWindow=true
             }

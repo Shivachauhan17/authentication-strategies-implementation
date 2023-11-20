@@ -6,11 +6,14 @@ import { useDispatch } from "react-redux";
 
 const Home=()=>{
     const dispatch=useDispatch()
+    const handleWindow=()=>{
+        dispatch(windowActions.openWindow())  
+    }
 
     return(
         <div>
             <p>login with google  </p>
-            <GoogleButton onClick={()=>dispatch(windowActions.openWindow())}/>
+            <GoogleButton onClick={handleWindow}/>
         </div>
     )
 }
